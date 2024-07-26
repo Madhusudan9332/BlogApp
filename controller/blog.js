@@ -36,6 +36,21 @@ const readAllBlogs = async (req, res) => {
     });
   }
 };
+const profileBlogs = async (req, res) => {
+  try {
+    const blog = await blogModel.find({ author: req.user._id }) || [];
+    res.status(200).json({
+      status : "success",
+      message : "All Profile blogs read successfully",
+      data : blog
+    })
+  }catch(err){
+    res.status(400).json({
+      status : "fail to read all Profile blogs",
+      message : err.message
+    })
+  }
+}
 
 const readBlog = async (req, res) => {
   try {

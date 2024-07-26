@@ -21,7 +21,9 @@ const createBlog = async (req, res) => {
 
 const readAllBlogs = async (req, res) => {
   try {
-    const blogs = (await blogModel.find()) || [];
+    const skip = req.query.skip || 0;
+    const limit = req.query.limit || 10;
+    const blogs = (await blogModel.find().skip(skip).limit(limit)) || [];
     res.status(200).json({
       status: "success",
       message: "All blogs read successfully",

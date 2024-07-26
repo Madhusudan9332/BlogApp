@@ -10,7 +10,7 @@ router.post(
   blogController.createBlog
 );
 router.get(
-  "/v1/api/blog/all",
+  "/v1/api/blogs",
   authMiddleware,
   blogController.readAllBlogs
 );

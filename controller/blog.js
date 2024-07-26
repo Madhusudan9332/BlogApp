@@ -19,6 +19,22 @@ const createBlog = async (req, res) => {
   }
 };
 
+const readAllBlogs = async (req, res) => {
+  try {
+    const blogs = (await blogModel.find()) || [];
+    res.status(200).json({
+      status: "success",
+      message: "All blogs read successfully",
+      data: blogs,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail to read all blogs",
+      message: err.message,
+    });
+  }
+};
+
 const readBlog = async (req, res) => {
   try {
     const blog = await blogModel.findById(req.params.id);
@@ -40,7 +56,8 @@ const updateBlog = async (req, res) => {
   try {
     const blog = await blogModel.findByIdAndUpdate(req.params.id, req.body);
     if (!blog) throw new Error("Blog not found check blog-id");
-    if(blog.author.toString() !== req.user._id.toString()) throw new Error("You are not authorized to update this blog");
+    if (blog.author.toString() !== req.user._id.toString())
+      throw new Error("You are not authorized to update this blog");
     res.status(200).json({
       status: "success",
       message: "Blog updated successfully",
@@ -58,7 +75,8 @@ const deleteBlog = async (req, res) => {
   try {
     const blog = await blogModel.findByIdAndDelete(req.params.id);
     if (!blog) throw new Error("Blog not found check blog-id");
-    if(blog.author.toString() !== req.user._id.toString()) throw new Error("You are not authorized to delete this blog");
+    if (blog.author.toString() !== req.user._id.toString())
+      throw new Error("You are not authorized to delete this blog");
     res.status(200).json({
       status: "success",
       message: "Blog deleted successfully",
@@ -72,6 +90,12 @@ const deleteBlog = async (req, res) => {
   }
 };
 
-const blogController = { createBlog, readBlog, updateBlog, deleteBlog };
+const blogController = {
+  createBlog,
+  readAllBlogs,
+  readBlog,
+  updateBlog,
+  deleteBlog,
+};
 
 module.exports = blogController;

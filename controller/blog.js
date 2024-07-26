@@ -22,7 +22,7 @@ const createBlog = async (req, res) => {
 const readAllBlogs = async (req, res) => {
   try {
     const skip = req.query.skip || 0;
-    const limit = req.query.limit || 10;
+    const limit = req.query.limit || 20;
     const blogs = (await blogModel.find().skip(skip).limit(limit)) || [];
     res.status(200).json({
       status: "success",
